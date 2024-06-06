@@ -12,7 +12,7 @@ extension RecipeEntity {
 
     @NSManaged public var label: String?
     @NSManaged public var imageURL: String?
-    @NSManaged public var ingredients: [String]?
+    @NSManaged public var ingredients: String?
     @NSManaged public var calories: Double
     @NSManaged public var protein: Double
     @NSManaged public var fat: Double

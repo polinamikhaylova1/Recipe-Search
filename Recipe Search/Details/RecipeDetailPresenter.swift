@@ -21,7 +21,8 @@ final class RecipeDetailPresenter: RecipeDetailPresenterProtocol {
         view.setTitle(recipe.label)
         view.setImage(url: recipe.image)
         view.setNutrients("Белки: \(recipe.totalNutrients.protein.quantity) г, Жиры: \(recipe.totalNutrients.fat.quantity) г, Углеводы: \(recipe.totalNutrients.carbs.quantity) г")
-        view.setIngredients("Ингредиенты: " + recipe.ingredients.joined(separator: ", "))
+        let ingredientTexts = recipe.ingredients.map { $0.text }
+        view.setIngredients("Ингредиенты: " + ingredientTexts.joined(separator: ", "))
     }
     
     func buttonTapped() {
@@ -29,7 +30,8 @@ final class RecipeDetailPresenter: RecipeDetailPresenterProtocol {
         let entity = RecipeEntity(context: context)
         entity.label = recipe.label
         entity.imageURL = recipe.image.absoluteString
-        entity.ingredients = recipe.ingredients
+        let ingredientTexts = recipe.ingredients.map { $0.text }
+        entity.ingredients = ingredientTexts.joined(separator: ", ")
         entity.protein = recipe.totalNutrients.protein.quantity
         entity.fat = recipe.totalNutrients.fat.quantity
         entity.carbs = recipe.totalNutrients.carbs.quantity

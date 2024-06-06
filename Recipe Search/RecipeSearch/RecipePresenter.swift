@@ -27,10 +27,11 @@ class RecipePresenter: RecipePresenterProtocol {
             do {
                 let entities = try coreDataStack.context.fetch(fetchRequest)
                 let recipes = entities.map { entity -> Recipe in
-                    Recipe(
+                    let ingredients = entity.ingredients?.components(separatedBy: ", ") ?? []
+                    return Recipe(
                         label: entity.label ?? "",
                         image: URL(string: entity.imageURL ?? "")!,
-                        ingredients: entity.ingredients ?? [],
+                        ingredients: ingredients.map { Ingredient(text: $0, weight: 3) },
                         calories: entity.calories,
                         totalNutrients: Recipe.Nutrients(
                             protein: Recipe.Nutrients.Nutrient(quantity: entity.protein),

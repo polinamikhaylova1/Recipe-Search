@@ -66,8 +66,8 @@ class RecipeCollectionViewCell: UICollectionViewCell {
         imageView.load(url: recipe.image)
         titleLabel.text = recipe.label
         nutrientsLabel.text = "Б: \(recipe.totalNutrients.protein.quantity) г, Ж: \(recipe.totalNutrients.fat.quantity) г, У: \(recipe.totalNutrients.carbs.quantity) г"
-        ingredientsLabel.text = "Ингредиенты: " + recipe.ingredients.joined(separator: ", ")
-    }
+        let ingredientTexts = recipe.ingredients.map { $0.text }
+        ingredientsLabel.text = "Ingredients: \(ingredientTexts.joined(separator: ", "))"    }
 }
 
 extension UIImageView {

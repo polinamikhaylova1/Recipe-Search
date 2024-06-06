@@ -3,24 +3,15 @@ import Foundation
 
 enum RecipeAPI {
     case searchRecipes(query: String)
-    case recipeById(id: String)
 }
 
 extension RecipeAPI: TargetType {
-    static let API_KEY = "93cd0304b865baba271a523865945913"
-    static let APP_ID = "fc2be799"
-    
     var baseURL: URL {
         return URL(string: "https://api.edamam.com/api/recipes/v2")!
     }
     
     var path: String {
-        switch self {
-        case .searchRecipes:
-            return ""
-        case .recipeById(let id):
-            return "/\(id)"
-        }
+        return ""
     }
     
     var method: Moya.Method {
@@ -29,12 +20,24 @@ extension RecipeAPI: TargetType {
     
     var task: Task {
         switch self {
-        case .searchRecipes(let name):
-            return .requestParameters(parameters: ["type": "public", "beta": "false", "q": name, "app_id": RecipeAPI.APP_ID, "app_key": RecipeAPI.API_KEY], encoding: URLEncoding.queryString)
-        case .recipeById:
-            return .requestParameters(parameters: ["type": "public", "app_id": RecipeAPI.APP_ID, "app_key": RecipeAPI.API_KEY], encoding: URLEncoding.queryString)
+        case .searchRecipes(let query):
+            return .requestParameters(parameters: [
+                "type": "public",
+                "beta": "true",
+                "q": query,
+                "app_id": "fc2be799",
+                "app_key": "93cd0304b865baba271a523865945913",
+                "diet": "balanced",
+                "health": "alcohol-free",
+                "cuisineType": "Italian",
+                "mealType": "Breakfast",
+                "dishType": "Main course",
+                "calories": "100-300",
+                "time": "1",
+                "imageSize": "SMALL"
+            ], encoding: URLEncoding.queryString)
+            }
         }
-    }
     
     var headers: [String: String]? {
         return ["Content-type": "application/json"]
@@ -57,13 +60,16 @@ class RecipeService: RecipeServiceProtocol {
             switch result {
             case .success(let response):
                 do {
+                    //print("Response Data: \(String(data: response.data, encoding: .utf8) ?? "No data")")  // Отладочный вывод
                     let recipeResponse = try JSONDecoder().decode(RecipeResponse.self, from: response.data)
                     let recipes = recipeResponse.hits.map { $0.recipe }
                     completion(.success(recipes))
                 } catch {
+                    print("Decoding Error: \(error)")
                     completion(.failure(error))
                 }
             case .failure(let error):
+                print("Request Error: \(error)")
                 completion(.failure(error))
             }
         }
