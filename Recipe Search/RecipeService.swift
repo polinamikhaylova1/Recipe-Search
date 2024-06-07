@@ -2,16 +2,16 @@ import Moya
 import Foundation
 
 enum RecipeAPI {
-    case searchRecipes(query: String)
+    case searchRecipes(query: String, mealType: String)
 }
 
 extension RecipeAPI: TargetType {
     var baseURL: URL {
-        return URL(string: "https://api.edamam.com/api/recipes/v2")!
+        return URL(string: "https://api.edamam.com")!
     }
     
     var path: String {
-        return ""
+        return "/api/recipes/v2"
     }
     
     var method: Moya.Method {
@@ -20,17 +20,17 @@ extension RecipeAPI: TargetType {
     
     var task: Task {
         switch self {
-        case .searchRecipes(let query):
+        case .searchRecipes(let query, let mealType):
             return .requestParameters(parameters: [
                 "type": "public",
-                "beta": "true",
+                "beta": true,
                 "q": query,
                 "app_id": "fc2be799",
                 "app_key": "93cd0304b865baba271a523865945913",
                 "diet": "balanced",
                 "health": "alcohol-free",
                 "cuisineType": "Italian",
-                "mealType": "Breakfast",
+                "mealType": mealType,
                 "dishType": "Main course",
                 "calories": "100-300",
                 "time": "1",
@@ -49,21 +49,21 @@ extension RecipeAPI: TargetType {
 }
 
 protocol RecipeServiceProtocol {
-    func fetchRecipes(query: String, completion: @escaping (Result<[Recipe], Error>) -> Void)
+    func fetchRecipes(query: String, mealType: String, completion: @escaping (Result<[Recipe], Error>) -> Void)
 }
 
 class RecipeService: RecipeServiceProtocol {
     private let provider = MoyaProvider<RecipeAPI>()
     
-    func fetchRecipes(query: String, completion: @escaping (Result<[Recipe], Error>) -> Void) {
-        provider.request(.searchRecipes(query: query)) { result in
+    func fetchRecipes(query: String,mealType: String, completion: @escaping (Result<[Recipe], Error>) -> Void) {
+        provider.request(.searchRecipes(query: query, mealType: mealType)) { result in
             switch result {
             case .success(let response):
                 do {
                     //print("Response Data: \(String(data: response.data, encoding: .utf8) ?? "No data")")  // Отладочный вывод
-                    let recipeResponse = try JSONDecoder().decode(RecipeResponse.self, from: response.data)
-                    let recipes = recipeResponse.hits.map { $0.recipe }
-                    completion(.success(recipes))
+                    let recipesResponse = try JSONDecoder().decode(RecipesResponse.self, from: response.data)
+                    let recipes = recipesResponse.hits.map { $0.recipe }
+                completion(.success(recipes))
                 } catch {
                     print("Decoding Error: \(error)")
                     completion(.failure(error))

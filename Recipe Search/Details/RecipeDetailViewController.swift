@@ -46,15 +46,15 @@ final class RecipeDetailViewController: UIViewController, RecipeDetailViewProtoc
     }
     
     func setImage(url: URL) {
-        recipeDetailView.imageView.load(url: url)
+        //recipeDetailView.imageView.load(url: url)
     }
     
     func setNutrients(_ nutrients: String) {
-        recipeDetailView.nutrientsLabel.text = nutrients
+       // recipeDetailView.nutrientsLabel.text = nutrients
     }
     
     func setIngredients(_ ingredients: String) {
-        recipeDetailView.ingredientsLabel.text = ingredients
+        //еrecipeDetailView.ingredientsLabel.text = ingredients
     }
 }
 

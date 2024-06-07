@@ -3,16 +3,37 @@ import UIKit
 class RecipeViewController: UIViewController {
     private var recipes: [Recipe] = []
     private let presenter: RecipePresenterProtocol
-    private let searchBar = UISearchBar()
-    private let collectionView: UICollectionView
+    //private let searchBar = UISearchBar()
+    //private let collectionView: UICollectionView
     
     init(presenter: RecipePresenterProtocol) {
         self.presenter = presenter
-        let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width - 20, height: 150)
-        self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        //let layout = UICollectionViewFlowLayout()
+        //layout.itemSize = CGSize(width: 150, height: 200)
+        //self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         super.init(nibName: nil, bundle: nil)
     }
+    private let mealTypeSegmentedControl: UISegmentedControl = {
+        let segmentedControl = UISegmentedControl(items: ["Breakfast", "Lunch", "Dinner", "Snack"])
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        segmentedControl.selectedSegmentIndex = 0
+        return segmentedControl
+    }()
+    
+    private let collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 200)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .white
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
+    }()
+    
+    private let searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        return searchBar
+    }()
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -22,7 +43,7 @@ class RecipeViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         setupConstraints()
-        presenter.loadRecipesFromCoreData()
+        presenter.setView(view: self)
     }
     
     private func setupUI() {
@@ -31,17 +52,30 @@ class RecipeViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(RecipeCollectionViewCell.self, forCellWithReuseIdentifier: "RecipeCell")
+        mealTypeSegmentedControl.addTarget(self, action: #selector(mealTypeChanged(_:)), for: .valueChanged)
         
+        view.addSubview(mealTypeSegmentedControl)
         view.addSubview(searchBar)
         view.addSubview(collectionView)
+    }
+    @objc private func mealTypeChanged(_ sender: UISegmentedControl) {
+        let mealTypes = ["Breakfast", "Lunch", "Dinner", "Snack"]
+        let selectedMealType = mealTypes[sender.selectedSegmentIndex]
+        presenter.searchRecipes(query: "", mealType: selectedMealType)
+
     }
     
     private func setupConstraints() {
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        mealTypeSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            mealTypeSegmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            mealTypeSegmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            mealTypeSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                
+            searchBar.topAnchor.constraint(equalTo: mealTypeSegmentedControl.bottomAnchor),
             searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
@@ -55,7 +89,11 @@ class RecipeViewController: UIViewController {
 
 extension RecipeViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        presenter.searchRecipes(query: searchText)
+        guard let query = searchBar.text, !query.isEmpty else { return }
+        let selectedMealTypeIndex = mealTypeSegmentedControl.selectedSegmentIndex
+        let mealTypes = ["Breakfast", "Lunch", "Dinner", "Snack"]
+        let selectedMealType = mealTypes[selectedMealTypeIndex]
+        presenter.searchRecipes(query: query, mealType: selectedMealType)
     }
 }
 
@@ -73,18 +111,17 @@ extension RecipeViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedRecipe = recipes[indexPath.item]
-        let detailViewController = createDetailViewController(for: selectedRecipe)
-        navigateToDetailViewController(detailViewController)
-    }        
-    private func createDetailViewController(for recipe: Recipe) -> RecipeDetailViewController {
-        
+        presenter.didSelectRecipe(selectedRecipe)
+    }
+    private func createDetailViewController(with recipe: Recipe) -> RecipeDetailViewController {
         let detailPresenter = RecipeDetailPresenter(view: nil, recipe: recipe)
         let detailViewController = RecipeDetailViewController(presenter: detailPresenter)
         return detailViewController
     }
             
-    private func navigateToDetailViewController(_ viewController: RecipeDetailViewController) {
-        navigationController?.pushViewController(viewController, animated: true)
+    func navigateToDetailViewController(with recipe: Recipe) {
+        let detailsVC = createDetailViewController(with: recipe)
+        navigationController?.pushViewController(detailsVC, animated: true)
     }
 }
 
@@ -97,7 +134,6 @@ extension RecipeViewController: RecipeViewProtocol {
     }
     
     func displayError(_ error: Error) {
-        // Handle error (e.g., show an alert)
     }
 }
 
