@@ -27,27 +27,7 @@ class RecipeCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.addSubview(imageView)
-        contentView.addSubview(label)
-        contentView.addSubview(ingredientsLabel)
-        contentView.layer.borderWidth = 1.0
-        contentView.layer.borderColor = UIColor.lightGray.cgColor
-        
-        NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-                        imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                        imageView.widthAnchor.constraint(equalToConstant: 150),
-                        imageView.heightAnchor.constraint(equalToConstant: 150),
-                            
-                        label.topAnchor.constraint(equalTo: contentView.topAnchor),
-                        label.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 8),
-                        label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                        
-                        ingredientsLabel.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 1),
-                        ingredientsLabel.leadingAnchor.constraint(equalTo: label.leadingAnchor),
-                        ingredientsLabel.trailingAnchor.constraint(equalTo: label.trailingAnchor),
-                        //ingredientsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        ])
+        setupUI()
     }
     
     required init?(coder: NSCoder) {
@@ -86,4 +66,30 @@ class RecipeCollectionViewCell: UICollectionViewCell {
         }
     }
     
+}
+extension RecipeCollectionViewCell {
+    func setupUI() {
+        contentView.addSubview(imageView)
+        contentView.addSubview(label)
+        contentView.addSubview(ingredientsLabel)
+        contentView.layer.borderWidth = 1.0
+        contentView.layer.borderColor = UIColor.lightGray.cgColor
+        setupConstraint()
+    }
+    func setupConstraint() {
+        NSLayoutConstraint.activate([
+            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            imageView.widthAnchor.constraint(equalToConstant: 150),
+            imageView.heightAnchor.constraint(equalToConstant: 150),
+                    
+            label.topAnchor.constraint(equalTo: contentView.topAnchor),
+            label.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 8),
+            label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                        
+            ingredientsLabel.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 1),
+            ingredientsLabel.leadingAnchor.constraint(equalTo: label.leadingAnchor),
+            ingredientsLabel.trailingAnchor.constraint(equalTo: label.trailingAnchor),
+        ])
+    }
 }

@@ -60,7 +60,6 @@ class RecipeService: RecipeServiceProtocol {
             switch result {
             case .success(let response):
                 do {
-                    //print("Response Data: \(String(data: response.data, encoding: .utf8) ?? "No data")")  // Отладочный вывод
                     let recipesResponse = try JSONDecoder().decode(RecipesResponse.self, from: response.data)
                     let recipes = recipesResponse.hits.map { $0.recipe }
                 completion(.success(recipes))

@@ -1,39 +1,20 @@
 import UIKit
 
-class RecipeViewController: UIViewController {
+protocol RecipeViewProtocol: AnyObject {
+    func displayRecipes(_ recipes: [Recipe])
+    func displayError(_ error: Error)
+    func navigateToDetailViewController(with recipe: Recipe, at index: Int)
+}
+
+final class RecipeViewController: UIViewController {
     private var recipes: [Recipe] = []
     private let presenter: RecipePresenterProtocol
-    //private let searchBar = UISearchBar()
-    //private let collectionView: UICollectionView
+    private var recipeView = RecipeView()
     
     init(presenter: RecipePresenterProtocol) {
         self.presenter = presenter
-        //let layout = UICollectionViewFlowLayout()
-        //layout.itemSize = CGSize(width: 150, height: 200)
-        //self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         super.init(nibName: nil, bundle: nil)
     }
-    private let mealTypeSegmentedControl: UISegmentedControl = {
-        let segmentedControl = UISegmentedControl(items: ["Breakfast", "Lunch", "Dinner", "Snack"])
-        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        segmentedControl.selectedSegmentIndex = 0
-        return segmentedControl
-    }()
-    
-    private let collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 200)
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .white
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        return collectionView
-    }()
-    
-    private let searchBar: UISearchBar = {
-        let searchBar = UISearchBar()
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
-        return searchBar
-    }()
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -41,23 +22,17 @@ class RecipeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
-        setupConstraints()
+        recipeView.searchBar.delegate = self
+        recipeView.collectionView.delegate = self
+        recipeView.collectionView.dataSource = self
+        recipeView.mealTypeSegmentedControl.addTarget(self, action: #selector(mealTypeChanged(_:)), for: .valueChanged)
         presenter.setView(view: self)
     }
-    
-    private func setupUI() {
-        view.backgroundColor = .white
-        searchBar.delegate = self
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(RecipeCollectionViewCell.self, forCellWithReuseIdentifier: "RecipeCell")
-        mealTypeSegmentedControl.addTarget(self, action: #selector(mealTypeChanged(_:)), for: .valueChanged)
-        
-        view.addSubview(mealTypeSegmentedControl)
-        view.addSubview(searchBar)
-        view.addSubview(collectionView)
+    override func loadView() {
+        recipeView = RecipeView()
+        self.view = recipeView
     }
+    
     @objc private func mealTypeChanged(_ sender: UISegmentedControl) {
         let mealTypes = ["Breakfast", "Lunch", "Dinner", "Snack"]
         let selectedMealType = mealTypes[sender.selectedSegmentIndex]
@@ -65,32 +40,12 @@ class RecipeViewController: UIViewController {
 
     }
     
-    private func setupConstraints() {
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        mealTypeSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            mealTypeSegmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            mealTypeSegmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            mealTypeSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                
-            searchBar.topAnchor.constraint(equalTo: mealTypeSegmentedControl.bottomAnchor),
-            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            
-            collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-    }
 }
 
 extension RecipeViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         guard let query = searchBar.text, !query.isEmpty else { return }
-        let selectedMealTypeIndex = mealTypeSegmentedControl.selectedSegmentIndex
+        let selectedMealTypeIndex = recipeView.mealTypeSegmentedControl.selectedSegmentIndex
         let mealTypes = ["Breakfast", "Lunch", "Dinner", "Snack"]
         let selectedMealType = mealTypes[selectedMealTypeIndex]
         presenter.searchRecipes(query: query, mealType: selectedMealType)
@@ -111,25 +66,26 @@ extension RecipeViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedRecipe = recipes[indexPath.item]
-        presenter.didSelectRecipe(selectedRecipe)
+        presenter.didSelectRecipe(selectedRecipe, at: indexPath.item)
     }
-    private func createDetailViewController(with recipe: Recipe) -> RecipeDetailViewController {
-        let detailPresenter = RecipeDetailPresenter(view: nil, recipe: recipe)
+    func createDetailViewController(with recipe: Recipe, at index: Int) -> RecipeDetailViewController {
+        let detailPresenter = RecipeDetailPresenter(view: nil, recipe: recipe, recipeIndex: index)
         let detailViewController = RecipeDetailViewController(presenter: detailPresenter)
         return detailViewController
     }
             
-    func navigateToDetailViewController(with recipe: Recipe) {
-        let detailsVC = createDetailViewController(with: recipe)
+    func navigateToDetailViewController(with recipe: Recipe, at index: Int) {
+        let detailsVC = createDetailViewController(with: recipe, at: index)
         navigationController?.pushViewController(detailsVC, animated: true)
     }
 }
 
 extension RecipeViewController: RecipeViewProtocol {
+    
     func displayRecipes(_ recipes: [Recipe]) {
         DispatchQueue.main.async {
             self.recipes = recipes
-            self.collectionView.reloadData()
+            self.recipeView.collectionView.reloadData()
         }
     }
     

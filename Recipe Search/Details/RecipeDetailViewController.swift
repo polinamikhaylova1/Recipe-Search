@@ -1,9 +1,17 @@
 import UIKit
 
+protocol RecipeDetailViewProtocol: AnyObject {
+    func displaySuccessMessage(_ message: String)
+    func displayErrorMessage(_ message: String)
+    func setTitle(_ title: String)
+    func setImage(url: URL)
+    func setNutrients(_ nutrients: String)
+    func setIngredients(_ ingredients: [Ingredient])
+}
+
 final class RecipeDetailViewController: UIViewController, RecipeDetailViewProtocol {
     
     private var presenter: RecipeDetailPresenterProtocol
-    
     private var recipeDetailView = RecipeDetailView()
     
     init(presenter: RecipeDetailPresenterProtocol) {
@@ -29,6 +37,9 @@ final class RecipeDetailViewController: UIViewController, RecipeDetailViewProtoc
         presenter.buttonTapped()
     }
     
+    
+}
+extension RecipeDetailViewController {
     func displaySuccessMessage(_ message: String) {
         let alert = UIAlertController(title: "Успех", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
@@ -60,11 +71,9 @@ final class RecipeDetailViewController: UIViewController, RecipeDetailViewProtoc
        // recipeDetailView.nutrientsLabel.text = nutrients
     }
     
-    func setIngredients(_ ingredients: String) {
-        var recipe: Recipe
-        let ingredientTexts = recipe.ingredients.map { $0.text }
+    func setIngredients(_ ingredients: [Ingredient]) {
+        let ingredientTexts = ingredients.map { $0.text }
         recipeDetailView.ingredientsLabel.text = "Ingredients: \(ingredientTexts.joined(separator: ", "))"
-        //recipeDetailView.ingredientsLabel.text = ingredients
     }
 }
 
