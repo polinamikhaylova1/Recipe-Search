@@ -1,7 +1,5 @@
 import Foundation
 
-
-
 protocol RecipeDetailViewProtocol: AnyObject {
     func displaySuccessMessage(_ message: String)
     func displayErrorMessage(_ message: String)

@@ -46,7 +46,14 @@ final class RecipeDetailViewController: UIViewController, RecipeDetailViewProtoc
     }
     
     func setImage(url: URL) {
-        //recipeDetailView.imageView.load(url: url)
+        DispatchQueue.global().async { [weak self] in
+            if let data = try? Data(contentsOf: url),
+               let image = UIImage(data: data) {
+                DispatchQueue.main.async {
+                    self?.recipeDetailView.imageView.image = image
+                }
+            }
+        }
     }
     
     func setNutrients(_ nutrients: String) {
@@ -54,7 +61,10 @@ final class RecipeDetailViewController: UIViewController, RecipeDetailViewProtoc
     }
     
     func setIngredients(_ ingredients: String) {
-        //еrecipeDetailView.ingredientsLabel.text = ingredients
+        var recipe: Recipe
+        let ingredientTexts = recipe.ingredients.map { $0.text }
+        recipeDetailView.ingredientsLabel.text = "Ingredients: \(ingredientTexts.joined(separator: ", "))"
+        //recipeDetailView.ingredientsLabel.text = ingredients
     }
 }
 

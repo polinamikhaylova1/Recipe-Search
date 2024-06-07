@@ -30,7 +30,7 @@ class RecipeDetailView: UIView {
         //nutrientsLabel.numberOfLines = 0
         
         ingredientsLabel.font = .systemFont(ofSize: 14)
-        ingredientsLabel.numberOfLines = 0
+        ingredientsLabel.numberOfLines = 5
         
         favoriteButton.setTitle("Добавить в избранное", for: .normal)
         
@@ -49,20 +49,19 @@ class RecipeDetailView: UIView {
         favoriteButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
+            titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
+            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            
+            imageView.topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: 16),
             imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
             imageView.heightAnchor.constraint(equalToConstant: 100),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
-            
-            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10),
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 16),
         
      //       nutrientsLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
        //     nutrientsLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
          //   nutrientsLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
         
-            ingredientsLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            ingredientsLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
             ingredientsLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             ingredientsLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             
