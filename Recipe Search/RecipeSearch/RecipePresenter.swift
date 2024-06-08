@@ -7,7 +7,7 @@ protocol RecipePresenterProtocol: AnyObject {
     func didSelectRecipe(_ recipe: Recipe, at index: Int)
 }
 
-class RecipePresenter: RecipePresenterProtocol {
+final class RecipePresenter: RecipePresenterProtocol {
     private weak var view: RecipeViewProtocol?
     private var recipes: [Recipe] = []
     private let recipeService: RecipeServiceProtocol

@@ -27,6 +27,7 @@ final class RecipeViewController: UIViewController {
         recipeView.collectionView.dataSource = self
         recipeView.mealTypeSegmentedControl.addTarget(self, action: #selector(mealTypeChanged(_:)), for: .valueChanged)
         presenter.setView(view: self)
+        title = "Search"
     }
     override func loadView() {
         recipeView = RecipeView()

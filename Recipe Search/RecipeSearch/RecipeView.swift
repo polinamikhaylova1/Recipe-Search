@@ -1,7 +1,6 @@
 import UIKit
 
 final class RecipeView: UIView {
-
     let mealTypeSegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["Breakfast", "Lunch", "Dinner", "Snack"])
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false

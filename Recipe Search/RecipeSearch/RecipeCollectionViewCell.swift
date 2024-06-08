@@ -1,6 +1,6 @@
 import UIKit
 
-class RecipeCollectionViewCell: UICollectionViewCell {
+final class RecipeCollectionViewCell: UICollectionViewCell {
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill

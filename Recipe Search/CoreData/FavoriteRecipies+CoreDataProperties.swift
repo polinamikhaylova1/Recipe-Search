@@ -19,6 +19,9 @@ extension FavoriteRecipies {
     @NSManaged public var label: String?
     @NSManaged public var ingredients: String?
     @NSManaged public var image: String?
+    @NSManaged public var totalTime: Double
+   
+    
 
 }
 

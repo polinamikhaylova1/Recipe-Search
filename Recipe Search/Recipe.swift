@@ -16,8 +16,6 @@ struct TotalNutrientDTO: Decodable {
     let unit: String
 }
 
-
-
 struct Hit: Decodable {
     let recipe: Recipe
 }
@@ -28,7 +26,6 @@ struct RecipesResponse: Decodable {
 
 struct Ingredient: Decodable {
     let text: String
-//    let weight: Double?
 }
 class RecipesRepository {
     static let shared = RecipesRepository()
@@ -56,7 +53,6 @@ class RecipesRepository {
         favoriteRecipe.label = recipe.label
         favoriteRecipe.image = recipe.image.absoluteString
         favoriteRecipe.ingredients = recipe.ingredients.map { $0.text }.joined(separator: ", ")
-        //favoriteRecipe.totalNutrients = recipe.totalNutrients.
         CoreDataStack.shared.saveContext()
     }
     

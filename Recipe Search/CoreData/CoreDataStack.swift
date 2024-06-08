@@ -28,5 +28,21 @@ class CoreDataStack {
             }
         }
     }
+    func deleteFromFavorites(recipe: RecipeModel) {
+        let context = CoreDataStack.shared.context
+        let fetchRequest: NSFetchRequest<FavoriteRecipies> = FavoriteRecipies.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "label == %@", recipe.label)
+
+        do {
+            let results = try context.fetch(fetchRequest)
+            for object in results {
+                context.delete(object)
+            }
+            try context.save()
+        } catch {
+            print("Failed to delete recipe: \(error)")
+        }
+    }
+
 }
 
