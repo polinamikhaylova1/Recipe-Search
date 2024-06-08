@@ -32,7 +32,7 @@ extension RecipeAPI: TargetType {
                 "cuisineType": "American",
                 "mealType": mealType,
                 "dishType": "Main course",
-                "calories": "0-10000",
+                "calories": "1-10000",
                 "time": "300",
                 "imageSize": "SMALL"
             ], encoding: URLEncoding.queryString)

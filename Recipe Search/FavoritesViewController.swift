@@ -3,6 +3,7 @@ import UIKit
 protocol FavoritesView: AnyObject {
     func showRecipes(_ recipes: [RecipeModel])
     func showError(_ error: String)
+    func navigateToDetailViewController(with recipe: RecipeModel, at index: Int)
 }
 
 class FavoritesViewController: UIViewController, FavoritesView {
@@ -72,7 +73,8 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let recipe = recipes[indexPath.row]
+        let selectedRecipe = recipes[indexPath.row]
+        presenter.didSelectRecipe(selectedRecipe, at: indexPath.row)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -80,5 +82,14 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
             let recipe = recipes[indexPath.row]
             presenter.deleteRecipe(recipe)
         }
+    }
+    func navigateToDetailViewController(with recipe: RecipeModel, at index: Int) {
+        let detailsVC = createDetailViewController(with: recipe, at: index)
+        navigationController?.pushViewController(detailsVC, animated: true)
+    }
+    func createDetailViewController(with recipe: RecipeModel, at index: Int) -> FavoritesDetailsViewController {
+        let detailPresenter = FavoritesDetailsPresenter(view: nil, recipe: recipe)
+        let detailViewController = FavoritesDetailsViewController(presenter: detailPresenter)
+        return detailViewController
     }
 }

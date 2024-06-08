@@ -6,6 +6,8 @@ struct RecipeModel {
     let image: String
     let ingredients: String
     let totalTime: Double
+    let uri: String
+    let calories: Double
     //let totalNutrients: [String: TotalNutrientDTO2]
     // let calories: Double
 }

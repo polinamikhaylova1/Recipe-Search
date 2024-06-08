@@ -61,7 +61,14 @@ extension RecipeViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecipeCell", for: indexPath) as! RecipeCollectionViewCell
         let recipe = recipes[indexPath.item]
-        cell.configure(with: recipe)
+        if CoreDataStack.shared.isRecipeFavorite(uri: recipe.uri) {
+            if let favoriteRecipe = CoreDataStack.shared.fetchFavoriteRecipe(uri: recipe.uri) {
+                    cell.configure(with: favoriteRecipe)
+                }
+            } else {
+                cell.configure(with: recipe)
+            }
+                
         return cell
     }
     

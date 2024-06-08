@@ -43,6 +43,31 @@ class CoreDataStack {
             print("Failed to delete recipe: \(error)")
         }
     }
+    func isRecipeFavorite(uri: String) -> Bool {
+            let fetchRequest: NSFetchRequest<FavoriteRecipies> = FavoriteRecipies.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "uri == %@", uri)
+            
+            do {
+                let count = try context.count(for: fetchRequest)
+                return count > 0
+            } catch {
+                print("Failed to fetch favorite recipe: \(error)")
+                return false
+            }
+        }
+        
+    func fetchFavoriteRecipe(uri: String) -> FavoriteRecipies? {
+        let fetchRequest: NSFetchRequest<FavoriteRecipies> = FavoriteRecipies.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "uri == %@", uri)
+        
+        do {
+            let recipes = try context.fetch(fetchRequest)
+            return recipes.first
+        } catch {
+            print("Failed to fetch favorite recipe: \(error)")
+            return nil
+        }
+    }
 
 }
 

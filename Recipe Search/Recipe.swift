@@ -2,11 +2,13 @@ import Foundation
 import CoreData
 
 struct Recipe: Decodable {
+    let uri: String
     let label: String
     let image: URL
     let ingredients: [Ingredient]
     let totalTime: Double
     let totalNutrients: [String: TotalNutrientDTO]
+    let calories: Double
     // let calories: Double
 }
 
@@ -53,6 +55,8 @@ class RecipesRepository {
         favoriteRecipe.label = recipe.label
         favoriteRecipe.image = recipe.image.absoluteString
         favoriteRecipe.ingredients = recipe.ingredients.map { $0.text }.joined(separator: ", ")
+        favoriteRecipe.uri = recipe.uri
+        
         CoreDataStack.shared.saveContext()
     }
     

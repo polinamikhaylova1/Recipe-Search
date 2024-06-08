@@ -1,5 +1,11 @@
 import CoreData
 
+protocol FavoritesPresenterProtocol: AnyObject {
+    func deleteRecipe(_ recipe: RecipeModel)
+    func didSelectRecipe(_ recipe: RecipeModel, at index: Int)
+    func fetchFavorites()
+}
+
 class FavoritesPresenter {
     
     weak var view: FavoritesView?
@@ -23,7 +29,9 @@ class FavoritesPresenter {
                         label: favoriteRecipe.label ?? "",
                         image: favoriteRecipe.image ?? "",
                         ingredients: favoriteRecipe.ingredients ?? "",
-                        totalTime: favoriteRecipe.totalTime
+                        totalTime: favoriteRecipe.totalTime,
+                        uri: favoriteRecipe.uri ?? "",
+                        calories: favoriteRecipe.calories
                     )
                 }
                 view?.showRecipes(recipes)
@@ -34,6 +42,9 @@ class FavoritesPresenter {
     func deleteRecipe(_ recipe: RecipeModel) {
         CoreDataStack.shared.deleteFromFavorites(recipe: recipe)
         fetchFavorites()
+    }
+    func didSelectRecipe(_ recipe: RecipeModel, at index: Int) {
+        view?.navigateToDetailViewController(with: recipe, at: index)
     }
 }
 
