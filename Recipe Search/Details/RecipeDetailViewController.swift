@@ -5,8 +5,9 @@ protocol RecipeDetailViewProtocol: AnyObject {
     func displayErrorMessage(_ message: String)
     func setTitle(_ title: String)
     func setImage(url: URL)
-    func setNutrients(_ nutrients: String)
+    func setTotalNutrients(_ totalNutrients: [String])
     func setIngredients(_ ingredients: [Ingredient])
+    func updateContentSize() 
 }
 
 final class RecipeDetailViewController: UIViewController, RecipeDetailViewProtocol {
@@ -67,13 +68,16 @@ extension RecipeDetailViewController {
         }
     }
     
-    func setNutrients(_ nutrients: String) {
-       // recipeDetailView.nutrientsLabel.text = nutrients
+    func setTotalNutrients(_ totalNutrients: [String]) {
+        recipeDetailView.nutrientsLabel.text = "Nutrients:\n" + totalNutrients.joined(separator:",\n")
     }
     
     func setIngredients(_ ingredients: [Ingredient]) {
         let ingredientTexts = ingredients.map { $0.text }
-        recipeDetailView.ingredientsLabel.text = "Ingredients: \(ingredientTexts.joined(separator: ", "))"
+        recipeDetailView.ingredientsLabel.text = "Ingredients:\n\(ingredientTexts.joined(separator:",\n"))"
+    }
+    func updateContentSize() {
+        recipeDetailView.scrollView.contentSize = recipeDetailView.contentView.bounds.size
     }
 }
 

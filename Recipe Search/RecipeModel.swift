@@ -1,11 +1,22 @@
 import Foundation
+import CoreData
 
 struct Recipe: Decodable {
     let label: String
     let image: URL
     let ingredients: [Ingredient]
-    //let calories: Double
+    let totalTime: Double
+    let totalNutrients: [String: TotalNutrientDTO]
+    // let calories: Double
 }
+
+struct TotalNutrientDTO: Decodable {
+    let label: String
+    let quantity: Double
+    let unit: String
+}
+
+
 
 struct Hit: Decodable {
     let recipe: Recipe
@@ -39,4 +50,13 @@ class RecipesRepository {
         }
         return recipes[index]
     }
+    func saveToFavorites(recipe: Recipe) {
+        let context = CoreDataStack.shared.context
+        let favoriteRecipe = NSEntityDescription.insertNewObject(forEntityName: "FavoriteRecipies", into: context) as! FavoriteRecipies
+        favoriteRecipe.label = recipe.label
+        favoriteRecipe.image = recipe.image.absoluteString
+        favoriteRecipe.ingredients = recipe.ingredients.map { $0.text }.joined(separator: ", ")
+        CoreDataStack.shared.saveContext()
+    }
+    
 }

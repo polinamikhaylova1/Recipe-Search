@@ -11,12 +11,10 @@ class RecipePresenter: RecipePresenterProtocol {
     private weak var view: RecipeViewProtocol?
     private var recipes: [Recipe] = []
     private let recipeService: RecipeServiceProtocol
-    //private let coreDataStack: CoreDataStack
     let repository = RecipesRepository.shared
     
-    init(view: RecipeViewProtocol?, recipeService: RecipeServiceProtocol = RecipeService(), coreDataStack: CoreDataStack = .shared) {
+    init(view: RecipeViewProtocol?, recipeService: RecipeServiceProtocol = RecipeService()) {
         self.recipeService = recipeService
-        //self.coreDataStack = coreDataStack
     }
     
     func searchRecipes( query: String, mealType: String) {

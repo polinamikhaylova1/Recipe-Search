@@ -22,21 +22,17 @@ final class RecipeDetailPresenter: RecipeDetailPresenterProtocol {
         self.view = view
         guard let recipe = repository.getRecipe(at: recipeIndex) else {
             return}
+        
         view.setTitle(recipe.label)
         view.setImage(url: recipe.image)
         view.setIngredients(recipe.ingredients)
+        let nutrientTexts = recipe.totalNutrients.map { "\($0.value.label): \($0.value.quantity) \($0.value.unit)" }
+        view.setTotalNutrients(nutrientTexts)
+        view.updateContentSize()
     }
     
     func buttonTapped() {
-        let context = coreDataStack.context
-        let entity = RecipeEntity(context: context)
-        entity.label = recipe.label
-        do {
-            try context.save()
-            view?.displaySuccessMessage("Рецепт добавлен в избранное!")
-        } catch {
-            view?.displayErrorMessage("Не удалось сохранить рецепт")
-        }
+        RecipesRepository.shared.saveToFavorites(recipe: recipe)
     }
     
 }

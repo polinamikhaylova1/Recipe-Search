@@ -29,11 +29,11 @@ extension RecipeAPI: TargetType {
                 "app_key": "93cd0304b865baba271a523865945913",
                 "diet": "balanced",
                 "health": "alcohol-free",
-                "cuisineType": "Italian",
+                "cuisineType": "American",
                 "mealType": mealType,
                 "dishType": "Main course",
-                "calories": "100-300",
-                "time": "1",
+                "calories": "0-10000",
+                "time": "300",
                 "imageSize": "SMALL"
             ], encoding: URLEncoding.queryString)
             }
