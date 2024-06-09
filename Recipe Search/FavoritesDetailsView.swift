@@ -47,7 +47,7 @@ final class FavoritesDetailsView: UIView {
     
     let favoriteButton: UIButton = {
         let favoriteButton = UIButton(type: .system)
-        favoriteButton.setTitle("Добавить в избранное", for: .normal)
+        favoriteButton.setTitle("Delete recipe 🗑", for: .normal)
         favoriteButton.translatesAutoresizingMaskIntoConstraints = false
         return favoriteButton
     }()

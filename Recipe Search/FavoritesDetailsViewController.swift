@@ -30,11 +30,11 @@ final class FavoritesDetailsViewController: UIViewController, FavoritesDetailsVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        favoritesDetailView.favoriteButton.addTarget(self, action: #selector(favoriteButtonTapped), for: .touchUpInside)
+        favoritesDetailView.favoriteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
         presenter.didLoad(view: self)
     }
     
-    @objc private func favoriteButtonTapped() {
+    @objc private func deleteButtonTapped() {
         presenter.buttonTapped()
     }
     

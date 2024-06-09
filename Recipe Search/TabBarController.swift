@@ -40,16 +40,23 @@ final class TabBarController: UITabBarController {
         
         tabBar.tintColor = .label
         
-        let firstTab = createNav(for: firstViewController, and: UIImage(systemName: "magnifyingglass"))
-        let secondTab = createNav(for: secondViewController, and: UIImage(systemName: "star.fill"))
+        
+                
+        let firstTab = createNav(for: firstViewController, title: "Search", image: UIImage(systemName: "magnifyingglass"))
+        let secondTab = createNav(for: secondViewController, title: "Favorites", image: UIImage(systemName: "star.fill"))
+        
+        
         
         setViewControllers([firstTab, secondTab], animated: true)
     }
     
-    private func createNav(for vc: UIViewController, and image: UIImage?) -> UINavigationController {
-        let navController = UINavigationController(rootViewController: vc)
-        navController.tabBarItem.image = image
-        return navController
-    }
+    private func createNav(for rootViewController: UIViewController, title: String, image: UIImage?) -> UINavigationController {
+            let navController = UINavigationController(rootViewController: rootViewController)
+            navController.tabBarItem.title = title
+            navController.tabBarItem.image = image
+            navController.navigationBar.prefersLargeTitles = false
+            rootViewController.navigationItem.title = title
+            return navController
+        }
 }
 

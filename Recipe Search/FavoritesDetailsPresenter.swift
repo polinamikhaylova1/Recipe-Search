@@ -29,7 +29,7 @@ final class FavoritesDetailsPresenter: FavoritesDetailsPresenterProtocol {
     }
     
     func buttonTapped() {
-       //RecipesRepository.shared.saveToFavorites(recipe: recipe)
+        CoreDataStack.shared.deleteFromFavorites(recipe: recipe)
     }
     
 }

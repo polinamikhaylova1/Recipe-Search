@@ -16,6 +16,8 @@ final class RecipeDetailView: UIView {
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 12
+        imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.clipsToBounds = true
         return imageView
@@ -31,7 +33,7 @@ final class RecipeDetailView: UIView {
     
     let nutrientsLabel: UILabel = {
         let nutrientsLabel = UILabel()
-        nutrientsLabel.font = .systemFont(ofSize: 14)
+        nutrientsLabel.font = .systemFont(ofSize: 16)
         nutrientsLabel.translatesAutoresizingMaskIntoConstraints = false
         nutrientsLabel.numberOfLines = 0
         return nutrientsLabel
@@ -39,7 +41,7 @@ final class RecipeDetailView: UIView {
     
     let ingredientsLabel: UILabel = {
         let ingredientsLabel = UILabel()
-        ingredientsLabel.font = .systemFont(ofSize: 14)
+        ingredientsLabel.font = .systemFont(ofSize: 16)
         ingredientsLabel.translatesAutoresizingMaskIntoConstraints = false
         ingredientsLabel.numberOfLines = 0
         return ingredientsLabel
@@ -47,7 +49,7 @@ final class RecipeDetailView: UIView {
     
     let favoriteButton: UIButton = {
         let favoriteButton = UIButton(type: .system)
-        favoriteButton.setTitle("Добавить в избранное", for: .normal)
+        favoriteButton.setTitle("Add to favorites ❤️", for: .normal)
         favoriteButton.translatesAutoresizingMaskIntoConstraints = false
         return favoriteButton
     }()
@@ -62,7 +64,7 @@ final class RecipeDetailView: UIView {
     }
 
     private func setupUI() {
-        backgroundColor = .white
+        backgroundColor = .systemBackground
         addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubview(imageView)
@@ -92,7 +94,7 @@ final class RecipeDetailView: UIView {
 
             imageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
             imageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            imageView.heightAnchor.constraint(equalToConstant: 200),
+            imageView.heightAnchor.constraint(equalToConstant: 300),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
 
             ingredientsLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 16),

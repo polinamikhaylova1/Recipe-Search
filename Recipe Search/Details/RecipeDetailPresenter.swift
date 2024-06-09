@@ -26,7 +26,18 @@ final class RecipeDetailPresenter: RecipeDetailPresenterProtocol {
         view.setTitle(recipe.label)
         view.setImage(url: recipe.image)
         view.setIngredients(recipe.ingredients)
-        let nutrientTexts = recipe.totalNutrients.map { "\($0.value.label): \($0.value.quantity) \($0.value.unit)" }
+        
+        let numberFormatter = NumberFormatter()
+        numberFormatter.maximumFractionDigits = 1
+        numberFormatter.minimumFractionDigits = 1
+
+        let nutrientTexts = recipe.totalNutrients.compactMap { nutrient -> String? in
+            guard let formattedQuantity = numberFormatter.string(from: NSNumber(value: nutrient.value.quantity)) else {
+                return nil
+            }
+            return "\(nutrient.value.label): \(formattedQuantity) \(nutrient.value.unit)"
+        }
+        
         view.setTotalNutrients(nutrientTexts)
         view.updateContentSize()
     }

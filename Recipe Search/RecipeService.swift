@@ -2,7 +2,7 @@ import Moya
 import Foundation
 
 enum RecipeAPI {
-    case searchRecipes(query: String, mealType: String)
+    case searchRecipes(query: String, diet: String,health: String, cuisineType: String, mealType: String, dishType: String)
 }
 
 extension RecipeAPI: TargetType {
@@ -20,23 +20,22 @@ extension RecipeAPI: TargetType {
     
     var task: Task {
         switch self {
-        case .searchRecipes(let query, let mealType):
-            return .requestParameters(parameters: [
+        case .searchRecipes(let query, let diet, let health,  let cuisineType, let mealType,  let dishType ):
+            let parameters: [String: Any] = [
                 "type": "public",
                 "beta": true,
                 "q": query,
                 "app_id": "fc2be799",
                 "app_key": "93cd0304b865baba271a523865945913",
-                "diet": "balanced",
-                "health": "alcohol-free",
-                "cuisineType": "American",
+                "diet": diet,
+                "health": health,
+                "cuisineType": cuisineType,
                 "mealType": mealType,
-                "dishType": "Main course",
+                "dishType": dishType,
                 "calories": "1-10000",
                 "time": "300",
-                "imageSize": "SMALL"
-            ], encoding: URLEncoding.queryString)
-            }
+                "imageSize": "SMALL" ]
+                return .requestParameters(parameters: parameters, encoding: URLEncoding.queryString)            }
         }
     
     var headers: [String: String]? {
@@ -49,14 +48,14 @@ extension RecipeAPI: TargetType {
 }
 
 protocol RecipeServiceProtocol {
-    func fetchRecipes(query: String, mealType: String, completion: @escaping (Result<[Recipe], Error>) -> Void)
+    func fetchRecipes(query: String, diet: String,health: String, cuisineType: String, mealType: String, dishType: String, completion: @escaping (Result<[Recipe], Error>) -> Void)
 }
 
 class RecipeService: RecipeServiceProtocol {
     private let provider = MoyaProvider<RecipeAPI>()
     
-    func fetchRecipes(query: String,mealType: String, completion: @escaping (Result<[Recipe], Error>) -> Void) {
-        provider.request(.searchRecipes(query: query, mealType: mealType)) { result in
+    func fetchRecipes(query: String, diet: String, health: String, cuisineType: String, mealType: String, dishType: String, completion: @escaping (Result<[Recipe], Error>) -> Void) {
+        provider.request(.searchRecipes(query: query, diet: diet, health: health, cuisineType: cuisineType, mealType: mealType, dishType: dishType)) { result in
             switch result {
             case .success(let response):
                 do {
@@ -64,6 +63,7 @@ class RecipeService: RecipeServiceProtocol {
                     let recipes = recipesResponse.hits.map { $0.recipe }
                 completion(.success(recipes))
                 } catch {
+                    print (response)
                     print("Decoding Error: \(error)")
                     completion(.failure(error))
                 }

@@ -2,7 +2,7 @@ import Foundation
 import CoreData
 
 protocol RecipePresenterProtocol: AnyObject {
-    func searchRecipes(query: String, mealType: String)
+    func searchRecipes(query: String, diet: String, health: String, cuisineType: String, mealType: String, dishType: String)
     func setView(view: RecipeViewProtocol)
     func didSelectRecipe(_ recipe: Recipe, at index: Int)
 }
@@ -17,8 +17,8 @@ final class RecipePresenter: RecipePresenterProtocol {
         self.recipeService = recipeService
     }
     
-    func searchRecipes( query: String, mealType: String) {
-        recipeService.fetchRecipes(query: query, mealType: mealType) { [weak self] result in
+    func searchRecipes(query: String, diet: String, health: String, cuisineType: String, mealType: String, dishType: String) {
+        recipeService.fetchRecipes(query: query, diet: diet, health: health, cuisineType: cuisineType, mealType: mealType, dishType: dishType ) { [weak self] result in
             switch result {
             case .success(let recipes):
                 self?.repository.saveRecipes(recipes)
@@ -27,6 +27,7 @@ final class RecipePresenter: RecipePresenterProtocol {
                 self?.view?.displayError(error)
             }
         }
+        
     }
     func setView(view: RecipeViewProtocol) {
         self.view = view

@@ -3,7 +3,7 @@ import UIKit
 final class RecipeCollectionViewCell: UICollectionViewCell {
     let heartImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(systemName: "heart.fill"))
-        imageView.tintColor = .red // Установите цвет сердца
+        imageView.tintColor = .red
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -11,7 +11,7 @@ final class RecipeCollectionViewCell: UICollectionViewCell {
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 8
+        imageView.layer.cornerRadius = 12
         imageView.layer.masksToBounds = true
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -46,7 +46,7 @@ final class RecipeCollectionViewCell: UICollectionViewCell {
     
     let ingredientsLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 7
+        label.numberOfLines = 5
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 12)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -117,16 +117,27 @@ final class RecipeCollectionViewCell: UICollectionViewCell {
             task.resume()
         }
     }
+    lazy var stackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [label, ingredientsLabel, totalTime, calories])
+        stackView.axis = .vertical
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 1
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
     
 }
 extension RecipeCollectionViewCell {
     func setupUI() {
         contentView.addSubview(heartImageView)
+        contentView.addSubview(stackView)
         contentView.addSubview(imageView)
-        contentView.addSubview(label)
-        contentView.addSubview(ingredientsLabel)
-        contentView.addSubview(totalTime)
-        contentView.addSubview(calories)
+        
+        //contentView.addSubview(label)
+        //contentView.addSubview(ingredientsLabel)
+        //contentView.addSubview(totalTime)
+        //contentView.addSubview(calories)
+        
         contentView.layer.borderWidth = 1.0
         contentView.layer.borderColor = UIColor.orange.cgColor
         contentView.layer.cornerRadius = 10
@@ -135,25 +146,13 @@ extension RecipeCollectionViewCell {
     func setupConstraint() {
         NSLayoutConstraint.activate([
             imageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            imageView.widthAnchor.constraint(equalToConstant: 150),
-            imageView.heightAnchor.constraint(equalToConstant: 150),
+            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
+            imageView.widthAnchor.constraint(equalToConstant: 170),
+            imageView.heightAnchor.constraint(equalToConstant: 170),
                     
-            label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            label.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 6),
-            label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-                        
-            ingredientsLabel.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 1),
-            ingredientsLabel.leadingAnchor.constraint(equalTo: label.leadingAnchor),
-            ingredientsLabel.trailingAnchor.constraint(equalTo: heartImageView.trailingAnchor),
-            
-            totalTime.topAnchor.constraint(equalTo: ingredientsLabel.bottomAnchor, constant: 1),
-            totalTime.leadingAnchor.constraint(equalTo: label.leadingAnchor),
-            totalTime.trailingAnchor.constraint(equalTo: heartImageView.trailingAnchor),
-            
-            calories.topAnchor.constraint(equalTo: totalTime.bottomAnchor, constant: 1),
-            calories.leadingAnchor.constraint(equalTo: label.leadingAnchor),
-            calories.trailingAnchor.constraint(equalTo: heartImageView.trailingAnchor),
+            stackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            stackView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 6),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
             
             heartImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             heartImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),

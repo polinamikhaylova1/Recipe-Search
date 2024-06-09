@@ -9,7 +9,6 @@ struct Recipe: Decodable {
     let totalTime: Double
     let totalNutrients: [String: TotalNutrientDTO]
     let calories: Double
-    // let calories: Double
 }
 
 struct TotalNutrientDTO: Decodable {

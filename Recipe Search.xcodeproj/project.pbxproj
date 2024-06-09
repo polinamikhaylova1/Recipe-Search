@@ -7,13 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A14EBD12C1593D900035FBF /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A14EBD02C1593D800035FBF /* FilterViewController.swift */; };
+		7A14EBD72C15952A00035FBF /* FilterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A14EBD62C15952A00035FBF /* FilterPresenter.swift */; };
 		7A1D1D3B2C133EDD005E6E7F /* RecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1D1D3A2C133EDD005E6E7F /* RecipeView.swift */; };
 		7A32AD292C11AA3500994125 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A32AD282C11AA3500994125 /* AppDelegate.swift */; };
 		7A32AD2B2C11AA3500994125 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A32AD2A2C11AA3500994125 /* SceneDelegate.swift */; };
 		7A32AD352C11AA3700994125 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A32AD342C11AA3700994125 /* Assets.xcassets */; };
 		7A32AD382C11AA3700994125 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 7A32AD372C11AA3700994125 /* Base */; };
 		7A32AD412C11AC8A00994125 /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 7A32AD402C11AC8A00994125 /* CombineMoya */; };
-		7A32AD432C11AC8A00994125 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 7A32AD422C11AC8A00994125 /* Moya */; };
+		7A32AD432C11AC8A00994125 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 7A32AD422C11AC8A00994125 /* Moya */; settings = {ATTRIBUTES = (Required, ); }; };
 		7A32AD452C11AC8A00994125 /* ReactiveMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 7A32AD442C11AC8A00994125 /* ReactiveMoya */; };
 		7A32AD472C11AC8A00994125 /* RxMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 7A32AD462C11AC8A00994125 /* RxMoya */; };
 		7A32AD492C11AD0E00994125 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A32AD482C11AD0E00994125 /* Recipe.swift */; };
@@ -38,6 +40,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7A14EBD02C1593D800035FBF /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
+		7A14EBD62C15952A00035FBF /* FilterPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPresenter.swift; sourceTree = "<group>"; };
 		7A1D1D3A2C133EDD005E6E7F /* RecipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeView.swift; sourceTree = "<group>"; };
 		7A32AD252C11AA3500994125 /* Recipe Search.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Recipe Search.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A32AD282C11AA3500994125 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -103,6 +107,8 @@
 				7A32AD282C11AA3500994125 /* AppDelegate.swift */,
 				7A32AD2A2C11AA3500994125 /* SceneDelegate.swift */,
 				7A32AD562C11AD9100994125 /* RecipeService.swift */,
+				7A14EBD02C1593D800035FBF /* FilterViewController.swift */,
+				7A14EBD62C15952A00035FBF /* FilterPresenter.swift */,
 				7A32AD482C11AD0E00994125 /* Recipe.swift */,
 				7AE2A6032C1471F200E298E8 /* TabBarController.swift */,
 				7AE2A6052C1471FE00E298E8 /* CoreData */,
@@ -247,6 +253,7 @@
 				7A32AD5B2C11ADD400994125 /* RecipeCollectionViewCell.swift in Sources */,
 				7AE2A5FE2C14338000E298E8 /* FavoriteRecipe.xcdatamodeld in Sources */,
 				7A32AD532C11AD7700994125 /* RecipeViewController.swift in Sources */,
+				7A14EBD12C1593D900035FBF /* FilterViewController.swift in Sources */,
 				7A32AD602C11BA0F00994125 /* RecipeDetailView.swift in Sources */,
 				7A32AD592C11ADC800994125 /* CoreDataStack.swift in Sources */,
 				7A32AD512C11AD6900994125 /* RecipeDetailPresenter.swift in Sources */,
@@ -255,6 +262,7 @@
 				7AE2A6022C1433C700E298E8 /* FavoriteRecipies+CoreDataProperties.swift in Sources */,
 				7AE2A60D2C147E2B00E298E8 /* RecipeModel.swift in Sources */,
 				7AE2A6072C14724200E298E8 /* FavoritesViewController.swift in Sources */,
+				7A14EBD72C15952A00035FBF /* FilterPresenter.swift in Sources */,
 				7A1D1D3B2C133EDD005E6E7F /* RecipeView.swift in Sources */,
 				7A32AD572C11AD9100994125 /* RecipeService.swift in Sources */,
 				7AE2A6122C14985A00E298E8 /* FavoritesDetailsPresenter.swift in Sources */,
