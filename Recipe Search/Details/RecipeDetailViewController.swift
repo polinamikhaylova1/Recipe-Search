@@ -30,25 +30,46 @@ final class RecipeDetailViewController: UIViewController, RecipeDetailViewProtoc
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupBackButton()
         recipeDetailView.favoriteButton.addTarget(self, action: #selector(favoriteButtonTapped), for: .touchUpInside)
+        
         presenter.didLoad(view: self)
+        
     }
     
     @objc private func favoriteButtonTapped() {
         presenter.buttonTapped()
+        showAlert()
+    }
+    func showAlert() {
+        let alertController = UIAlertController(title: nil, message: "Recipe added to favorites", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
     }
     
-    
+    @objc func backButtonTapped() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    func setupBackButton() {
+        let backButton = UIButton(type: .system)
+        backButton.setTitle("Back", for: .normal)
+        backButton.setTitleColor(.orange, for: .normal)
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        let barButtonItem = UIBarButtonItem(customView: backButton)
+        self.navigationItem.leftBarButtonItem = barButtonItem
+        
+    }
 }
 extension RecipeDetailViewController {
     func displaySuccessMessage(_ message: String) {
-        let alert = UIAlertController(title: "Успех", message: message, preferredStyle: .alert)
+        let alert = UIAlertController(title: "Success", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
     }
     
     func displayErrorMessage(_ message: String) {
-        let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
     }

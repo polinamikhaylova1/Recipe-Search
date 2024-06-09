@@ -107,8 +107,7 @@
 				7A32AD282C11AA3500994125 /* AppDelegate.swift */,
 				7A32AD2A2C11AA3500994125 /* SceneDelegate.swift */,
 				7A32AD562C11AD9100994125 /* RecipeService.swift */,
-				7A14EBD02C1593D800035FBF /* FilterViewController.swift */,
-				7A14EBD62C15952A00035FBF /* FilterPresenter.swift */,
+				7AC187082C1618A80003A13E /* FilterView */,
 				7A32AD482C11AD0E00994125 /* Recipe.swift */,
 				7AE2A6032C1471F200E298E8 /* TabBarController.swift */,
 				7AE2A6052C1471FE00E298E8 /* CoreData */,
@@ -141,6 +140,15 @@
 				7A32AD522C11AD7700994125 /* RecipeViewController.swift */,
 			);
 			path = RecipeSearch;
+			sourceTree = "<group>";
+		};
+		7AC187082C1618A80003A13E /* FilterView */ = {
+			isa = PBXGroup;
+			children = (
+				7A14EBD02C1593D800035FBF /* FilterViewController.swift */,
+				7A14EBD62C15952A00035FBF /* FilterPresenter.swift */,
+			);
+			path = FilterView;
 			sourceTree = "<group>";
 		};
 		7AE2A6052C1471FE00E298E8 /* CoreData */ = {

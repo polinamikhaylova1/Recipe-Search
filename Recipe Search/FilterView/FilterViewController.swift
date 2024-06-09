@@ -24,7 +24,9 @@ final class FilterViewController: UIViewController {
     
     private let doneButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Done", for: .normal)
+        button.setTitle("Search", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        button.setTitleColor(.systemOrange, for: .normal)
         return button
     }()
     

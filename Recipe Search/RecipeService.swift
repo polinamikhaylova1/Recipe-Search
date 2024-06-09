@@ -34,7 +34,7 @@ extension RecipeAPI: TargetType {
                 "dishType": dishType,
                 "calories": "1-10000",
                 "time": "300",
-                "imageSize": "SMALL" ]
+                "imageSize": "REGULAR" ]
                 return .requestParameters(parameters: parameters, encoding: URLEncoding.queryString)            }
         }
     

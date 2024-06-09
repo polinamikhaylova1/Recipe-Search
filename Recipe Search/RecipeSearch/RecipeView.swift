@@ -11,11 +11,10 @@ final class RecipeView: UIView {
         
     let filterButton: UIButton = {
         let button = UIButton(type: .system)
-        let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .bold)
+        let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold)
         let image = UIImage(systemName: "line.horizontal.3.decrease.circle.fill", withConfiguration: config)
         button.setImage(image, for: .normal)
-        button.tintColor = .systemBlue
-        button.backgroundColor = .systemGray5
+        button.tintColor = .systemOrange
         button.layer.cornerRadius = 20
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -65,7 +64,7 @@ private extension RecipeView {
             
             searchBar.topAnchor.constraint(equalTo: mealTypeSegmentedControl.bottomAnchor, constant: 8),
             searchBar.leadingAnchor.constraint(equalTo: leadingAnchor),
-            searchBar.trailingAnchor.constraint(equalTo: filterButton.leadingAnchor, constant: -8),
+            searchBar.trailingAnchor.constraint(equalTo: filterButton.leadingAnchor, constant: -10),
             searchBar.heightAnchor.constraint(equalToConstant: 40),
             
             filterButton.centerYAnchor.constraint(equalTo: searchBar.centerYAnchor),
@@ -73,7 +72,7 @@ private extension RecipeView {
             filterButton.widthAnchor.constraint(equalToConstant: 40),
             filterButton.heightAnchor.constraint(equalToConstant: 40),
             
-            collectionView.topAnchor.constraint(equalTo: filterButton.bottomAnchor),
+            collectionView.topAnchor.constraint(equalTo: filterButton.bottomAnchor, constant: 8),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)

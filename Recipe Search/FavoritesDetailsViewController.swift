@@ -30,12 +30,25 @@ final class FavoritesDetailsViewController: UIViewController, FavoritesDetailsVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupBackButton()
         favoritesDetailView.favoriteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
         presenter.didLoad(view: self)
     }
     
     @objc private func deleteButtonTapped() {
         presenter.buttonTapped()
+    }
+    @objc func backButtonTapped() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    func setupBackButton() {
+        let backButton = UIButton(type: .system)
+        backButton.setTitle("Back", for: .normal)
+        backButton.setTitleColor(.orange, for: .normal)
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        let barButtonItem = UIBarButtonItem(customView: backButton)
+        self.navigationItem.leftBarButtonItem = barButtonItem
+        
     }
     
     

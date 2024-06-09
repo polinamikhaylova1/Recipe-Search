@@ -38,7 +38,7 @@ final class TabBarController: UITabBarController {
         tabBar.scrollEdgeAppearance = appearance
         tabBar.standardAppearance = appearance
         
-        tabBar.tintColor = .label
+        tabBar.tintColor = .systemOrange
         
         
                 

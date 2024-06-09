@@ -1,5 +1,6 @@
 import Foundation
 
+
 protocol RecipeDetailPresenterProtocol: AnyObject {
     func buttonTapped()
     func didLoad(view: RecipeDetailViewProtocol)
@@ -45,6 +46,7 @@ final class RecipeDetailPresenter: RecipeDetailPresenterProtocol {
     func buttonTapped() {
         RecipesRepository.shared.saveToFavorites(recipe: recipe)
     }
+   
     
 }
 

@@ -56,6 +56,7 @@ final class RecipeViewController: UIViewController {
         present(filterViewController, animated: true, completion: nil)
     }
     
+    
     private func performSearch() {
         guard let query = recipeView.searchBar.text, !query.isEmpty else {
             let defaultQuery = ""

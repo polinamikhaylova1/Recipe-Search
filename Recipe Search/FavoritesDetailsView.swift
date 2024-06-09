@@ -16,6 +16,8 @@ final class FavoritesDetailsView: UIView {
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 12
+        imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.clipsToBounds = true
         return imageView
@@ -31,7 +33,7 @@ final class FavoritesDetailsView: UIView {
     
     let nutrientsLabel: UILabel = {
         let nutrientsLabel = UILabel()
-        nutrientsLabel.font = .systemFont(ofSize: 14)
+        nutrientsLabel.font = .systemFont(ofSize: 16)
         nutrientsLabel.translatesAutoresizingMaskIntoConstraints = false
         nutrientsLabel.numberOfLines = 0
         return nutrientsLabel
@@ -39,7 +41,7 @@ final class FavoritesDetailsView: UIView {
     
     let ingredientsLabel: UILabel = {
         let ingredientsLabel = UILabel()
-        ingredientsLabel.font = .systemFont(ofSize: 14)
+        ingredientsLabel.font = .systemFont(ofSize: 16)
         ingredientsLabel.translatesAutoresizingMaskIntoConstraints = false
         ingredientsLabel.numberOfLines = 0
         return ingredientsLabel
@@ -48,6 +50,8 @@ final class FavoritesDetailsView: UIView {
     let favoriteButton: UIButton = {
         let favoriteButton = UIButton(type: .system)
         favoriteButton.setTitle("Delete recipe 🗑", for: .normal)
+        favoriteButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        favoriteButton.setTitleColor(.systemOrange, for: .normal)
         favoriteButton.translatesAutoresizingMaskIntoConstraints = false
         return favoriteButton
     }()
@@ -92,7 +96,7 @@ final class FavoritesDetailsView: UIView {
 
             imageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
             imageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            imageView.heightAnchor.constraint(equalToConstant: 200),
+            imageView.heightAnchor.constraint(equalToConstant: 350),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
 
             ingredientsLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 16),
