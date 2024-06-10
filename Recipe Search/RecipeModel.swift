@@ -8,6 +8,8 @@ struct RecipeModel {
     let totalTime: Double
     let uri: String
     let calories: Double
+    let url: String
+    
     //let totalNutrients: [String: TotalNutrientDTO2]
     // let calories: Double
 }

@@ -3,6 +3,7 @@ import Foundation
 
 protocol RecipeDetailPresenterProtocol: AnyObject {
     func buttonTapped()
+    func linkButtonTapped()
     func didLoad(view: RecipeDetailViewProtocol)
 }
 
@@ -25,7 +26,7 @@ final class RecipeDetailPresenter: RecipeDetailPresenterProtocol {
             return}
         
         view.setTitle(recipe.label)
-        view.setImage(url: recipe.image)
+        view.setImage(image: recipe.image)
         view.setIngredients(recipe.ingredients)
         
         let numberFormatter = NumberFormatter()
@@ -46,7 +47,12 @@ final class RecipeDetailPresenter: RecipeDetailPresenterProtocol {
     func buttonTapped() {
         RecipesRepository.shared.saveToFavorites(recipe: recipe)
     }
-   
-    
+    func linkButtonTapped() {
+        let urlString = recipe.url
+        guard let url = URL(string: urlString) else { return print("No link") }
+        view?.openLink(url: url)
+    }
+
+       
 }
 

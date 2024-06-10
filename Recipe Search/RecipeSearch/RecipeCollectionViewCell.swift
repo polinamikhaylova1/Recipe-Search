@@ -83,16 +83,17 @@ final class RecipeCollectionViewCell: UICollectionViewCell {
             totalTime.text = nil
         }
         calories.text = "Calories: \(Int(favoriteRecipe.calories.rounded())) kcal"
-        if let imageUrlString = favoriteRecipe.image,
-               let imageUrl = URL(string: imageUrlString) { 
-                loadImage(from: imageUrl)
-            }
+        loadImage(from: favoriteRecipe.image)
         let ingredientTexts = favoriteRecipe.ingredients.components(separatedBy: ", ")
         ingredientsLabel.text = "Ingredients:\n\(ingredientTexts.joined(separator:",\n")))"
         heartImageView.isHidden = false
     }
         
-    private func loadImage(from url: URL) {
+    private func loadImage(from image: String) {
+        guard let url = URL(string: image) else {
+               print("Invalid URL string")
+               return
+           }
         DispatchQueue.global().async {
             guard let data = try? Data(contentsOf: url),
                  let _ = UIImage(data: data) else {

@@ -27,11 +27,12 @@ class FavoritesPresenter {
                 let recipes = favoriteRecipes.map { favoriteRecipe in
                     return RecipeModel(
                         label: favoriteRecipe.label ?? "",
-                        image: favoriteRecipe.image ?? "",
-                        ingredients: favoriteRecipe.ingredients ?? "",
+                        image: favoriteRecipe.image,
+                        ingredients: favoriteRecipe.ingredients,
                         totalTime: favoriteRecipe.totalTime,
                         uri: favoriteRecipe.uri ?? "",
-                        calories: favoriteRecipe.calories
+                        calories: favoriteRecipe.calories,
+                        url: favoriteRecipe.url ?? ""
                     )
                 }
                 view?.showRecipes(recipes)

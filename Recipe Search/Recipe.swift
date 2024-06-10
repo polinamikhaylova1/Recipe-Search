@@ -4,7 +4,8 @@ import CoreData
 struct Recipe: Decodable {
     let uri: String
     let label: String
-    let image: URL
+    let image: String
+    let url: String
     let ingredients: [Ingredient]
     let totalTime: Double
     let totalNutrients: [String: TotalNutrientDTO]
@@ -52,7 +53,8 @@ class RecipesRepository {
         let context = CoreDataStack.shared.context
         let favoriteRecipe = NSEntityDescription.insertNewObject(forEntityName: "FavoriteRecipies", into: context) as! FavoriteRecipies
         favoriteRecipe.label = recipe.label
-        favoriteRecipe.image = recipe.image.absoluteString
+        favoriteRecipe.image = recipe.image
+        favoriteRecipe.url = recipe.url
         favoriteRecipe.ingredients = recipe.ingredients.map { $0.text }.joined(separator: ", ")
         favoriteRecipe.uri = recipe.uri
         

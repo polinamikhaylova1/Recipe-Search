@@ -51,7 +51,6 @@ final class RecipeViewController: UIViewController {
         let filterViewController = FilterViewController()
         let filterPresenter = FilterPresenter(view: self)
         filterViewController.delegate = self
-        filterViewController.setPresenter(filterPresenter)
         filterViewController.modalPresentationStyle = .automatic
         present(filterViewController, animated: true, completion: nil)
     }
@@ -155,6 +154,10 @@ extension RecipeViewController: RecipeViewProtocol {
 }
 
 extension RecipeViewController: FilterViewProtocol {
+    func showFilters(diet: [String], health: [String], cuisineType: [String], dishType: [String]) {
+        
+    }
+    
     func applyFilters(diet: String?, health: String?, cuisineType: String?,  dishType: String?) {
         selectedDiet = diet
         selectedHealth = health

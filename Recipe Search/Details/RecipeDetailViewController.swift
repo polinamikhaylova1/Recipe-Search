@@ -1,13 +1,15 @@
 import UIKit
+import SafariServices
 
 protocol RecipeDetailViewProtocol: AnyObject {
     func displaySuccessMessage(_ message: String)
     func displayErrorMessage(_ message: String)
     func setTitle(_ title: String)
-    func setImage(url: URL)
+    func setImage(image: String)
     func setTotalNutrients(_ totalNutrients: [String])
     func setIngredients(_ ingredients: [Ingredient])
     func updateContentSize() 
+    func openLink(url: URL)
 }
 
 final class RecipeDetailViewController: UIViewController, RecipeDetailViewProtocol {
@@ -32,7 +34,8 @@ final class RecipeDetailViewController: UIViewController, RecipeDetailViewProtoc
         super.viewDidLoad()
         setupBackButton()
         recipeDetailView.favoriteButton.addTarget(self, action: #selector(favoriteButtonTapped), for: .touchUpInside)
-        
+        recipeDetailView.linkButton.addTarget(self, action: #selector(linkButtonTapped), for: .touchUpInside)
+
         presenter.didLoad(view: self)
         
     }
@@ -40,6 +43,15 @@ final class RecipeDetailViewController: UIViewController, RecipeDetailViewProtoc
     @objc private func favoriteButtonTapped() {
         presenter.buttonTapped()
         showAlert()
+    }
+    
+    @objc private func linkButtonTapped() {
+        presenter.linkButtonTapped()
+    }
+    func openLink(url: URL) {
+        let safariVC = SFSafariViewController(url: url)
+        present(safariVC, animated: true, completion: nil)
+        
     }
     func showAlert() {
         let alertController = UIAlertController(title: nil, message: "Recipe added to favorites", preferredStyle: .alert)
@@ -78,7 +90,11 @@ extension RecipeDetailViewController {
         recipeDetailView.titleLabel.text = title
     }
     
-    func setImage(url: URL) {
+    func setImage(image: String) {
+        guard let url = URL(string: image) else {
+                print("Invalid URL string")
+                return
+            }
         DispatchQueue.global().async { [weak self] in
             if let data = try? Data(contentsOf: url),
                let image = UIImage(data: data) {

@@ -31,20 +31,21 @@ final class FavoritesDetailsView: UIView {
         return titleLabel
     }()
     
-    let nutrientsLabel: UILabel = {
-        let nutrientsLabel = UILabel()
-        nutrientsLabel.font = .systemFont(ofSize: 16)
-        nutrientsLabel.translatesAutoresizingMaskIntoConstraints = false
-        nutrientsLabel.numberOfLines = 0
-        return nutrientsLabel
-    }()
-    
     let ingredientsLabel: UILabel = {
         let ingredientsLabel = UILabel()
         ingredientsLabel.font = .systemFont(ofSize: 16)
         ingredientsLabel.translatesAutoresizingMaskIntoConstraints = false
         ingredientsLabel.numberOfLines = 0
         return ingredientsLabel
+    }()
+    
+    let linkButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("More information about the recipe", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        button.setTitleColor(.systemOrange, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     let favoriteButton: UIButton = {
@@ -66,14 +67,14 @@ final class FavoritesDetailsView: UIView {
     }
 
     private func setupUI() {
-        backgroundColor = .white
+        backgroundColor = .systemBackground
         addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubview(imageView)
         contentView.addSubview(titleLabel)
-        contentView.addSubview(nutrientsLabel)
         contentView.addSubview(ingredientsLabel)
         contentView.addSubview(favoriteButton)
+        contentView.addSubview(linkButton)
         setupConstraints()
     }
     
@@ -103,11 +104,10 @@ final class FavoritesDetailsView: UIView {
             ingredientsLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             ingredientsLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
-            nutrientsLabel.topAnchor.constraint(equalTo: ingredientsLabel.bottomAnchor, constant: 16),
-            nutrientsLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            nutrientsLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            linkButton.topAnchor.constraint(equalTo: ingredientsLabel.bottomAnchor, constant: 16),
+            linkButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
 
-            favoriteButton.topAnchor.constraint(equalTo: nutrientsLabel.bottomAnchor, constant: 16),
+            favoriteButton.topAnchor.constraint(equalTo: linkButton.bottomAnchor, constant: 16),
             favoriteButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             favoriteButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
         ])

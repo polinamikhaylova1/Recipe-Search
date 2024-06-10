@@ -56,6 +56,15 @@ final class RecipeDetailView: UIView {
         return favoriteButton
     }()
     
+    let linkButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("More information about the recipe", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        button.setTitleColor(.systemOrange, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
    
     
     override init(frame: CGRect) {
@@ -76,6 +85,8 @@ final class RecipeDetailView: UIView {
         contentView.addSubview(nutrientsLabel)
         contentView.addSubview(ingredientsLabel)
         contentView.addSubview(favoriteButton)
+        contentView.addSubview(linkButton)
+        
         setupConstraints()
     }
     
@@ -108,10 +119,15 @@ final class RecipeDetailView: UIView {
             nutrientsLabel.topAnchor.constraint(equalTo: ingredientsLabel.bottomAnchor, constant: 16),
             nutrientsLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 18),
             nutrientsLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -18),
+            
+            linkButton.topAnchor.constraint(equalTo: nutrientsLabel.bottomAnchor, constant: 16),
+            linkButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
 
-            favoriteButton.topAnchor.constraint(equalTo: nutrientsLabel.bottomAnchor, constant: 16),
+            favoriteButton.topAnchor.constraint(equalTo: linkButton.bottomAnchor, constant: 16),
             favoriteButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             favoriteButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
+            
+            
         ])
     }
 }

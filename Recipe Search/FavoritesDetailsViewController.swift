@@ -1,13 +1,14 @@
 import UIKit
+import SafariServices
 
 protocol FavoritesDetailsViewProtocol: AnyObject {
     func displaySuccessMessage(_ message: String)
     func displayErrorMessage(_ message: String)
     func setTitle(_ title: String)
     func setImage(urlString: String)
-    func setTotalNutrients(_ totalNutrients: String)
     func setIngredients(_ ingredients: String)
     func updateContentSize()
+    func openLink(url: URL)
 }
 
 final class FavoritesDetailsViewController: UIViewController, FavoritesDetailsViewProtocol {
@@ -32,6 +33,8 @@ final class FavoritesDetailsViewController: UIViewController, FavoritesDetailsVi
         super.viewDidLoad()
         setupBackButton()
         favoritesDetailView.favoriteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
+        favoritesDetailView.linkButton.addTarget(self, action: #selector(linkButtonTapped), for: .touchUpInside)
+
         presenter.didLoad(view: self)
     }
     
@@ -40,6 +43,15 @@ final class FavoritesDetailsViewController: UIViewController, FavoritesDetailsVi
     }
     @objc func backButtonTapped() {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func linkButtonTapped() {
+        presenter.linkButtonTapped()
+    }
+    func openLink(url: URL) {
+        let safariVC = SFSafariViewController(url: url)
+        present(safariVC, animated: true, completion: nil)
+        
     }
     func setupBackButton() {
         let backButton = UIButton(type: .system)
@@ -84,10 +96,6 @@ extension FavoritesDetailsViewController {
         }
     }
     
-    func setTotalNutrients(_ totalNutrients: String) {
-        let nutrientsArray = totalNutrients.components(separatedBy: ", ")
-        favoritesDetailView.nutrientsLabel.text = "Nutrients:\n" + nutrientsArray.joined(separator: "\n")
-    }
     
     func setIngredients(_ ingredients: String) {
         let ingredientTexts = ingredients.components(separatedBy: ", ")

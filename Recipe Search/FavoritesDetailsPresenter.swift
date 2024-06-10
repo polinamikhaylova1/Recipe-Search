@@ -3,6 +3,7 @@ import Foundation
 protocol FavoritesDetailsPresenterProtocol: AnyObject {
     func buttonTapped()
     func didLoad(view: FavoritesDetailsViewProtocol)
+    func linkButtonTapped()
 }
 
 final class FavoritesDetailsPresenter: FavoritesDetailsPresenterProtocol {
@@ -30,6 +31,11 @@ final class FavoritesDetailsPresenter: FavoritesDetailsPresenterProtocol {
     
     func buttonTapped() {
         CoreDataStack.shared.deleteFromFavorites(recipe: recipe)
+    }
+    func linkButtonTapped() {
+        let urlString = recipe.url
+        guard let url = URL(string: urlString) else { return print("No link") }
+        view?.openLink(url: url)
     }
     
 }
