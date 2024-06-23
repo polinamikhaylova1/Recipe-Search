@@ -40,6 +40,7 @@ final class FavoritesDetailsViewController: UIViewController, FavoritesDetailsVi
     
     @objc private func deleteButtonTapped() {
         presenter.buttonTapped()
+        showAlert()
     }
     @objc func backButtonTapped() {
         self.navigationController?.popViewController(animated: true)
@@ -61,6 +62,12 @@ final class FavoritesDetailsViewController: UIViewController, FavoritesDetailsVi
         let barButtonItem = UIBarButtonItem(customView: backButton)
         self.navigationItem.leftBarButtonItem = barButtonItem
         
+    }
+    func showAlert() {
+        let alertController = UIAlertController(title: nil, message: "Recipe removed from favorites", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
     }
     
     
